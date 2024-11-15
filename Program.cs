@@ -3,16 +3,15 @@ using System.Text.Json;
 
 class Program
 {
-    // global properties
+    // global properties / game settings
     const int maxGuesses = 6;
     const int wordLength = 5;
+
     static void Main(string[] args)
     {
         // properties
         string filePath = "wordle.json";
         List<string> words;
-        List<string> guessedWords = new List<string> {};
-        int count = 0;
         
         // attempt to read the wordlist
         try {
@@ -30,6 +29,40 @@ class Program
             Console.WriteLine($"Failed reading the {filePath} file.");
             return;
         }
+        
+        // instructions
+        Console.Clear();
+        Console.CursorVisible = false;
+        
+        Console.WriteLine("\nWelcome to WORDLE!\n");
+        Console.WriteLine("Your goal is to guess a 5-letter word within 6 tries.");
+        Console.WriteLine("To help you the letters will be colored green, yellow or white.");
+
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write("GREEN ");
+        Console.ResetColor();
+        Console.WriteLine("means that the letter is correct and in the correct position.");
+
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write("YELLOW ");
+        Console.ResetColor();
+        Console.WriteLine("means that the letter is in the answer but not in the correct position.");
+        
+        Console.WriteLine("WHITE means the letter is not in the answer at all.\n");
+
+        Console.WriteLine("\nPS. the white color referenced above will be whatever default prompt text color you use.\n\n");
+        Console.WriteLine("Press a button to start the game...");
+
+        Console.ReadKey(true);
+        game(words); // start the game
+    }
+
+    // main game method
+    static void game(List<string> words)
+    {
+        // properties
+        List<string> guessedWords = new List<string> {};
+        int count = 0;
 
         // get a random word
         string answer = getWord(words);
@@ -60,14 +93,13 @@ class Program
             count++;
 
             renderGame(guessedWords, answer); // write the game board 
-            checkStatus(guess ?? "", answer, count); // check if the guess was correct
+            checkStatus(guess ?? "", answer, count, words); // check if the guess was correct
         }
     }
 
     static void renderGame(List<string> guessedWords, string answer)
     {
         Console.Clear();
-        Console.WriteLine("\nW O R D L E - Guess a 5 letter word...\n\n");
 
         string[] letters = new string[30]; // initialize an array with 30 empty strings
 
@@ -107,7 +139,7 @@ class Program
             }
             
             Console.Write(letters[i]);
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ResetColor();
             Console.Write(" ");
         }
 
@@ -116,7 +148,7 @@ class Program
     }
     
     // check if the guessed word was correct or if the game is over
-    static void checkStatus(string guess, string answer, int count)
+    static void checkStatus(string guess, string answer, int count, List<string> words)
     {
         if (guess == answer) Console.WriteLine("\nCongratulations you have won!\n");
         else if (count >= maxGuesses)
@@ -138,7 +170,7 @@ class Program
             switch (key)
             {
                 case ConsoleKey.D1:
-                    Main(new string[0]);
+                    game(words);
                     return;
 
                 case ConsoleKey.D2:
