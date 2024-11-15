@@ -12,3 +12,4 @@ C:\Users\maxas\Documents\miun\code\c#\projekt\obj\Debug\net8.0\refint\projekt.dl
 C:\Users\maxas\Documents\miun\code\c#\projekt\obj\Debug\net8.0\projekt.pdb
 C:\Users\maxas\Documents\miun\code\c#\projekt\obj\Debug\net8.0\projekt.genruntimeconfig.cache
 C:\Users\maxas\Documents\miun\code\c#\projekt\obj\Debug\net8.0\ref\projekt.dll
+C:\Users\maxas\Documents\miun\code\c#\projekt\obj\Debug\net8.0\projekt.sourcelink.json

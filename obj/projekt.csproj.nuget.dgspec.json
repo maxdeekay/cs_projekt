@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maxas\\documents\\miun\\code\\c#\\projekt\\projekt.csproj": {}
+    "C:\\Users\\maxas\\Documents\\miun\\code\\c#\\projekt\\projekt.csproj": {}
   },
   "projects": {
-    "C:\\Users\\maxas\\documents\\miun\\code\\c#\\projekt\\projekt.csproj": {
+    "C:\\Users\\maxas\\Documents\\miun\\code\\c#\\projekt\\projekt.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maxas\\documents\\miun\\code\\c#\\projekt\\projekt.csproj",
+        "projectUniqueName": "C:\\Users\\maxas\\Documents\\miun\\code\\c#\\projekt\\projekt.csproj",
         "projectName": "projekt",
-        "projectPath": "C:\\Users\\maxas\\documents\\miun\\code\\c#\\projekt\\projekt.csproj",
+        "projectPath": "C:\\Users\\maxas\\Documents\\miun\\code\\c#\\projekt\\projekt.csproj",
         "packagesPath": "C:\\Users\\maxas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maxas\\documents\\miun\\code\\c#\\projekt\\obj\\",
+        "outputPath": "C:\\Users\\maxas\\Documents\\miun\\code\\c#\\projekt\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\maxas\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -3,6 +3,9 @@ using System.Text.Json;
 
 class Program
 {
+    // global properties
+    const int maxGuesses = 6;
+    const int wordLength = 5;
     static void Main(string[] args)
     {
         // properties
@@ -28,14 +31,11 @@ class Program
             return;
         }
 
-        // randomze a correct word
-        Random random = new Random();
-        int randomNumber = random.Next(1, words.Count);
-        string answer = words[randomNumber].ToUpper();
+        // get a random word
+        string answer = getWord(words);
 
         Console.Clear(); // development pre-clear
-        Console.WriteLine("Correct Answer: " + answer);
-        renderGame(guessedWords); // write the game board
+        renderGame(guessedWords, answer); // write the game board
 
         // main game loop
         while (true) {
@@ -53,30 +53,26 @@ class Program
                 Console.SetCursorPosition(startX, startY); // move the cursor back to the saved position
 
                 guess = Console.ReadLine();
-            } while (guess == null || guess.Length != 5 || !guess.All(char.IsLetter));
+            } while (guess == null || guess.Length != wordLength || !guess.All(char.IsLetter));
 
             guess = guess.ToUpper();
             guessedWords.Add(guess ?? "");
             count++;
 
-            renderGame(guessedWords); // write the game board 
-            Console.WriteLine("Answer: " + answer);
-            Console.WriteLine("Count: " + count);
+            renderGame(guessedWords, answer); // write the game board 
             checkStatus(guess ?? "", answer, count); // check if the guess was correct
         }
     }
 
-    static void renderGame(List<string> guessedWords)
+    static void renderGame(List<string> guessedWords, string answer)
     {
         Console.Clear();
+        Console.WriteLine("\nW O R D L E - Guess a 5 letter word...\n\n");
 
         string[] letters = new string[30]; // initialize an array with 30 empty strings
 
         // fill the array with empty spaces
-        for (int i = 0; i < letters.Length; i++)
-        {
-            letters[i] = " ";
-        }
+        Array.Fill(letters, " ");
 
         // replace empty spaces with letters of the guessed words
         int index = 0;
@@ -93,32 +89,74 @@ class Program
 
         for (int i = 0; i < letters.Length; i++)
         {
-            if (i % 5 == 0 && i != 0) 
+            
+
+            // if we're at the end of a word that isn't the last
+            if (i % wordLength == 0 && i != 0) 
             {
                 Console.WriteLine("║");
                 Console.WriteLine("╠═══╬═══╬═══╬═══╬═══╣");
             }
+
+            Console.Write("║ "); // before every letter
+
+            // find all letters who exists in words
+            if (answer.Contains(letters[i]))
+            {
+                Console.ForegroundColor = (letters[i] == answer[i % wordLength].ToString()) ? ConsoleColor.Green : ConsoleColor.Yellow;
+            }
             
-            Console.Write($"║ {letters[i]} ");
+            Console.Write(letters[i]);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" ");
         }
 
         Console.WriteLine("║");
-        Console.WriteLine("╚═══╩═══╩═══╩═══╩═══╝");
+        Console.WriteLine("╚═══╩═══╩═══╩═══╩═══╝\n");
     }
     
     // check if the guessed word was correct or if the game is over
     static void checkStatus(string guess, string answer, int count)
     {
-        if (guess != answer && count < 6) return;
-
         if (guess == answer) Console.WriteLine("\nCongratulations you have won!\n");
-        if (guess != answer && count == 6) Console.WriteLine("\nYou're out of tries and have lost!\n");
-        
-        Console.WriteLine($"The correct answer was: {answer}\n");
+        else if (count >= maxGuesses)
+        {
+            Console.WriteLine("\nYou're out of tries and have lost!\n");
+            Console.WriteLine($"The correct answer was: {answer}\n");
+        }
+        else return;
+
         Console.WriteLine("1. Play again");
-        Console.WriteLine("2. Exit");
+        Console.WriteLine("2. Exit\n");
 
         Console.CursorVisible = false;
-        int input = (int) Console.ReadKey(true).Key;
+
+        while (true)
+        {
+            var key = Console.ReadKey(true).Key;
+
+            switch (key)
+            {
+                case ConsoleKey.D1:
+                    Main(new string[0]);
+                    return;
+
+                case ConsoleKey.D2:
+                    Environment.Exit(0);
+                    return;
+
+                default:
+                    Console.WriteLine("Please press '1' or '2'");
+                    break;
+            }
+        }
+    }
+
+    // method to get a random word from a list of words
+    static string getWord(List<string> words)
+    {
+        Random random = new Random();
+        int randomNumber = random.Next(1, words.Count);
+        return words[randomNumber].ToUpper();
     }
 }
