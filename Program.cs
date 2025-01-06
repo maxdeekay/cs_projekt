@@ -33,7 +33,7 @@ class Program
         // instructions
         Console.Clear();
         Console.CursorVisible = false;
-        
+
         Console.WriteLine("\nWelcome to WORDLE!\n");
         Console.WriteLine("Your goal is to guess a 5-letter word within 6 tries.");
         Console.WriteLine("To help you the letters will be colored green, yellow or white.");
@@ -121,8 +121,6 @@ class Program
 
         for (int i = 0; i < letters.Length; i++)
         {
-            
-
             // if we're at the end of a word that isn't the last
             if (i % wordLength == 0 && i != 0) 
             {
@@ -150,13 +148,18 @@ class Program
     // check if the guessed word was correct or if the game is over
     static void checkStatus(string guess, string answer, int count, List<string> words)
     {
-        if (guess == answer) Console.WriteLine("\nCongratulations you have won!\n");
+        if (guess == answer)
+        {
+            Console.WriteLine("\nCongratulations you have won!\n");
+        }
         else if (count >= maxGuesses)
         {
             Console.WriteLine("\nYou're out of tries and have lost!\n");
             Console.WriteLine($"The correct answer was: {answer}\n");
         }
-        else return;
+        else {
+            return;
+        }
 
         Console.WriteLine("1. Play again");
         Console.WriteLine("2. Exit\n");
@@ -188,7 +191,7 @@ class Program
     static string getWord(List<string> words)
     {
         Random random = new Random();
-        int randomNumber = random.Next(1, words.Count);
+        int randomNumber = random.Next(0, words.Count);
         return words[randomNumber].ToUpper();
     }
 }
